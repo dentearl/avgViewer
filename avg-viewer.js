@@ -20,7 +20,8 @@ var force = d3.layout.force()
     .charge(findCharge)
     .on("tick", tick)
     .start();
-    
+
+// three foci per level    
 var foci = [{x: 10, y:  50}, {x: w / 2, y: 25}, {x: w - 10, y:  50},
             {x: 10, y: h - 50}, {x: w / 2, y: h - 25}, {x: w - 10, y: h - 50}];
 
@@ -34,6 +35,7 @@ force.on("tick", function(e){
         o.y += (foci[o.focus].y - o.y) * k;
         o.x += (foci[o.focus].x - o.x) * k;
         o.y += (levels[o.level].y - o.y) * 0.001;
+        // Bounding box
         o.y = Math.max(r, Math.min(h - r, o.y));
         o.x = Math.max(r, Math.min(w - r, o.x));
     });
@@ -91,7 +93,7 @@ text.append("svg:text")
     .attr("y", ".31em")
     .text(function(d) { return d.name; });
 
-// different charges between nodes of certain types
+// different charges between nodes of certain types -- not currently implemented
 function findCharge(n, i){
     return -200
 }
@@ -103,7 +105,6 @@ function findLinkDistance(l, i){
     if (l.type == "segment"){return segLinkDist};
 }
 
-// Use elliptical arc path segments to doubly-encode directionality.
 function tick() {
   link.attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })
