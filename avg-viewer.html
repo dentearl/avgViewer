@@ -30,19 +30,40 @@
                     }else if (id == "descentLengthSlider"){
                         desLinkDist = val;
                         force.start();
+                    }else if(id == "segmentStrengthSlider"){
+                        segLinkStren = val;
+                        force.start();
+                    }else if(id == "adjacencyStrengthSlider"){
+                        adjLinkStren = val;
+                        force.start();
+                    }else if(id == "descentStrengthSlider"){
+                        desLinkStren = val;
+                        force.start();
                     }
                     $("#segmentLengthValue").text(segLinkDist);
                     $("#adjacencyLengthValue").text(adjLinkDist);
                     $("#descentLengthValue").text(desLinkDist);
+                    $("#segmentStrengthValue").text(segLinkStren);
+                    $("#adjacencyStrengthValue").text(adjLinkStren);
+                    $("#descentStrengthValue").text(desLinkStren);
                 }
             };
-            $("#segmentLengthSlider, #adjacencyLengthSlider, #descentLengthSlider").slider(sliderOpts);
+            $("#segmentLengthSlider, #adjacencyLengthSlider, #descentLengthSlider, #segmentStrengthSlider, #adjacencyStrengthSlider, #descentStrengthSlider").slider(sliderOpts);
             $("#segmentLengthSlider").slider("option", "max", 20);
             $("#adjacencyLengthSlider").slider("option", "max", 20);
             $("#descentLengthSlider").slider("option", "max", 400);
+            $("#segmentStrengthSlider").slider("option", "max", 2.0);
+            $("#adjacencyStrengthSlider").slider("option", "max", 2.0);
+            $("#descentStrengthSlider").slider("option", "max", 2.0);
+            $("#segmentStrengthSlider").slider("option", "step", 0.1);
+            $("#adjacencyStrengthSlider").slider("option", "step", 0.1);
+            $("#descentStrengthSlider").slider("option", "step", 0.1);
             $("#segmentLengthSlider").slider("option", "value", segLinkDist);
             $("#adjacencyLengthSlider").slider("option", "value", adjLinkDist);
             $("#descentLengthSlider").slider("option", "value", desLinkDist);
+            $("#segmentStrengthSlider").slider("option", "value", segLinkStren);
+            $("#adjacencyStrengthSlider").slider("option", "value", adjLinkStren);
+            $("#descentStrengthSlider").slider("option", "value", desLinkStren);
             
             var running = true;
             pauseRestart = function(){
@@ -83,6 +104,22 @@
             <div id="adjacencyLengthValue" class="status">1</div>
             <div class="slideContainer"><div id="adjacencyLengthSlider"></div></div>
         </div><!-- closing control -->    
+        
+        <div class="control">
+            <div class="title">Segment Strength:</div>
+            <div id="segmentStrengthValue" class="status">1.0</div>
+            <div class="slideContainer"><div id="segmentStrengthSlider"></div></div>
+        </div><!-- closing control -->
+        <div class="control">
+            <div class="title">Adjacency Strength:</div>
+            <div id="adjacencyStrengthValue" class="status">1.0</div>
+            <div class="slideContainer"><div id="adjacencyStrengthSlider"></div></div>
+        </div><!-- closing control -->
+        <div class="control">
+            <div class="title">Descent Strength:</div>
+            <div id="descentStrengthValue" class="status">1.0</div>
+            <div class="slideContainer"><div id="descentStrengthSlider"></div></div>
+        </div><!-- closing control -->
     
     </div><!-- closing controlPanel -->
     

@@ -9,7 +9,10 @@ var w = 1200,
     r = 6,
     segLinkDist = 1,
     adjLinkDist = 1,
-    desLinkDist = 200;
+    desLinkDist = 200,
+    segLinkStren = 1.0,
+    adjLinkStren = 1.0,
+    desLinkStren = 1.0;
 
 var force = d3.layout.force()
     .nodes(d3.values(nodes))
@@ -18,6 +21,7 @@ var force = d3.layout.force()
     .linkDistance(findLinkDistance)
     .gravity(0.1)
     .charge(findCharge)
+    .linkStrength(findLinkStrength)
     .on("tick", tick)
     .start();
 
@@ -103,6 +107,12 @@ function findLinkDistance(l, i){
     if (l.type == "descent"){return desLinkDist};
     if (l.type == "adjacency"){return adjLinkDist};
     if (l.type == "segment"){return segLinkDist};
+}
+
+function findLinkStrength(l, i){
+    if (l.type == "descent"){return desLinkStren};
+    if (l.type == "adjacency"){return adjLinkStren};
+    if (l.type == "segment"){return segLinkStren};
 }
 
 function tick() {
