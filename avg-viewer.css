@@ -1,0 +1,94 @@
+.ui-slider-horizontal {
+    height: 7px;
+}
+
+.ui-slider .ui-slider-handle {
+    height: 15px;
+    width: 15px;
+}
+
+.controlPanel {
+    float: left;
+    width: 960px;
+}
+
+.control {
+    border: 1px solid #DEDEDE;
+    padding: 10px;
+    width: 100%;
+    height: 20px;
+    float:left;
+}
+.control .title {
+    float: left;
+    width: 10em;
+    margin 0 150 px;
+    padding 8px;
+}
+.control .status {
+    float: left;
+    width: 50px;
+    padding: 8px;
+    padding-top: 0px;
+    margin-left: 0px;
+    font-family:sans serif;
+    vertical-align:top;
+}
+.control .slideContainer{
+    float:left;
+    width:600px;
+    padding:1px;
+    margin-left:0px;
+    height:5px;
+}
+
+
+p{
+    margin-left: 10px;
+}
+
+line.link {
+  fill: none;
+  stroke: #666;
+}
+
+line.link.descent {
+  stroke: #f99091;
+  stroke-width: 1.0px;
+}
+line.link.adjacency {
+  stroke: cyan;
+  stroke-width: 2.0px;
+}
+line.link.segment {
+  stroke: blue;
+  stroke-width: 4.0px;
+}
+
+circle {
+  fill: #ccc;
+  stroke: none //#333;
+  stroke-width: 1.5px;
+}
+circle.genome.a {
+  fill: #f9bd8c;
+}
+circle.genome.b {
+  fill: #b3c9f1;
+}
+
+
+text {
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+text.shadow {
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-opacity: .8;
+}
+
+svg{
+   border: 1px solid #DEDEDE;
+}

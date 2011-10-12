@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>AVG Viewer</title>
+    <link rel="stylesheet" type="text/css" href="http://hgwdev.cse.ucsc.edu/~dearl/js/jquery/css/ui-lightness/jquery-ui-1.8.16.custom.css">
+    <link rel="stylesheet" type="text/css" href="avg-viewer.css">
+    <script type="text/javascript" src="http://hgwdev.cse.ucsc.edu/~dearl/js/jquery/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="http://hgwdev.cse.ucsc.edu/~dearl/js/jquery/jquery-ui-1.8.16.custom.min.js"></script>
+
+    <script type="text/javascript" src="http://hgwdev.cse.ucsc.edu/~dearl/js/d3/d3.js?1.29.1"></script>
+    <script type="text/javascript" src="http://hgwdev.cse.ucsc.edu/~dearl/js/d3/d3.geom.js?1.29.1"></script>
+    <script type="text/javascript" src="http://hgwdev.cse.ucsc.edu/~dearl/js/d3/d3.layout.js?1.29.1"></script>
+    
+    <script type="text/javascript">
+      // functions to control slider and button to graphic interactions
+        $(function() {
+            var sliderOpts = {
+                animate: true,
+                min: 0,
+                slide: function(e, ui){
+                    var val = $(this).slider("value");
+                    var id = $(this).attr("id");
+                    if (id == "segmentLengthSlider"){
+                        segLinkDist = val;
+                        force.start();
+                    }else if (id == "adjacencyLengthSlider"){
+                        adjLinkDist = val;
+                        force.start();
+                    }else if (id == "descentLengthSlider"){
+                        desLinkDist = val;
+                        force.start();
+                    }
+                    $("#segmentLengthValue").text(segLinkDist);
+                    $("#adjacencyLengthValue").text(adjLinkDist);
+                    $("#descentLengthValue").text(desLinkDist);
+                }
+            };
+            $("#segmentLengthSlider, #adjacencyLengthSlider, #descentLengthSlider").slider(sliderOpts);
+            $("#segmentLengthSlider").slider("option", "max", 20);
+            $("#adjacencyLengthSlider").slider("option", "max", 20);
+            $("#descentLengthSlider").slider("option", "max", 400);
+            $("#segmentLengthSlider").slider("option", "value", segLinkDist);
+            $("#adjacencyLengthSlider").slider("option", "value", adjLinkDist);
+            $("#descentLengthSlider").slider("option", "value", desLinkDist);
+            
+            var running = true;
+            pauseRestart = function(){
+                if (running){
+                    force.stop();
+                    running = false;
+                    $("#startStopButton").text("Play");
+                }else{
+                    force.start();
+                    running = true;
+                    $("#startStopButton").text("Pause");
+                }
+            }
+            
+		});
+	</script>
+  </head>
+  <body>
+    <button id="startStopButton" type="button" onClick="pauseRestart();">Pause</button>
+    <br/>
+    <script type="text/javascript" src="example.js"></script>
+    <script type="text/javascript" src="avg-viewer.js"></script>
+    <div class="controlPanel">
+        <div class="control">
+            <div class="title">Descent Length:</div>
+            <div id="descentLengthValue" class="status">200</div>
+            <div class="slideContainer"><div id="descentLengthSlider"></div></div>
+        </div><!-- closing control -->
+        
+        <div class="control">
+            <div class="title">Segment Length:</div>
+            <div id="segmentLengthValue" class="status">1</div>
+            <div class="slideContainer"><div id="segmentLengthSlider"></div></div>
+        </div><!-- closing control -->
+        
+        <div class="control">
+            <div class="title">Adjacency Length:</div>
+            <div id="adjacencyLengthValue" class="status">1</div>
+            <div class="slideContainer"><div id="adjacencyLengthSlider"></div></div>
+        </div><!-- closing control -->    
+    
+    </div><!-- closing controlPanel -->
+    
+    
+  </body>
+</html>
