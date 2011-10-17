@@ -14,6 +14,22 @@ var w = 1200,
     adjLinkStren = 1.0,
     desLinkStren = 1.0;
 
+
+// three foci per level    
+var foci = [{x: 30, y:  50}, {x: w / 2, y: 25}, {x: w - 30, y:  50},
+            {x: 30, y: h - 50}, {x: w / 2, y: h - 25}, {x: w - 30, y: h - 50}];
+
+var levels = [{y: 50}, {y: h - 50}];
+
+// pin the edge nodes and fix them
+d3.values(nodes).forEach(function(node) {
+    if (node.end){
+        node.x = foci[node.focus].x;
+        node.y = foci[node.focus].y;
+        node.fixed = true;
+    };
+});
+
 var force = d3.layout.force()
     .nodes(d3.values(nodes))
     .links(links)
@@ -24,12 +40,6 @@ var force = d3.layout.force()
     .linkStrength(findLinkStrength)
     .on("tick", tick)
     .start();
-
-// three foci per level    
-var foci = [{x: 10, y:  50}, {x: w / 2, y: 25}, {x: w - 10, y:  50},
-            {x: 10, y: h - 50}, {x: w / 2, y: h - 25}, {x: w - 10, y: h - 50}];
-
-var levels = [{y: 100}, {y: 400}];
 
 force.on("tick", function(e){
     // Move nodes to top or bottom depending on focus
@@ -65,22 +75,23 @@ svg.append("svg:defs").selectAll("marker")
     .attr("d", "M0,-5L10,0L0,5");
 
 var link = svg.selectAll("link.link")
-    .data(links)
-   .enter().append("svg:line")
-    .attr("class", function(d) { return "link " + d.type; })
-    .attr("marker-end", function(d) { if (d.type == 'descent') return "url(#" + d.type + ")"; })
-    .attr("x1", function(d) { return d.source.x; })
-    .attr("y1", function(d) { return d.source.y; })
-    .attr("x2", function(d) { return d.target.x; })
-    .attr("y2", function(d) { return d.target.y; })
-    .on("dblclick", function(d) { alert("you double clicked a link from " + d.source.name + " to " + d.target.name); });
+        .data(links)
+     .enter().append("svg:line")
+        .attr("class", function(d) { return "link " + d.type; })
+        .attr("marker-end", function(d) { if (d.type == 'descent') return "url(#" + d.type + ")"; })
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; })
+    .attr("id", function(d) { return d.id; });
+//        .on("dblclick", dblClickLink);
 
 var circle = svg.append("svg:g").selectAll("circle")
-    .data(force.nodes())
-  .enter().append("svg:circle")
-    .attr("class", function(d) { if (d.level == "0"){return "genome a"}else{return "genome b"}})
-    .attr("r", r - 0.75)
-    .call(force.drag);
+        .data(force.nodes())
+      .enter().append("svg:circle")
+        .attr("class", function(d) { if (d.level == "0"){return "genome a"}else{return "genome b"}})
+        .attr("r", function(d) { if (d.end){return r * 1.5}else{return r - 0.75}})
+        .call(force.drag);
 
 var text = svg.append("svg:g").selectAll("g")
     .data(force.nodes())
@@ -130,3 +141,36 @@ function tick() {
   });
 }
 
+function dblClickLink(l){
+    alert("you double clicked link id " + l.id + " from " + l.source.name + " to " + l.target.name);
+    //links.splice(links.indexOf(l), 1);
+    //update();
+}
+
+function update(){
+    alert('updating');
+    force
+      .nodes(nodes)
+      .links(links)
+      .start();
+  // Update the links.
+  link = svg.selectAll("line")
+      .data(links, function(d) { return d.target.name; });
+
+  link.enter().insert("svg:line", ".node")
+      .attr("class", "link");
+  link.exit().remove();
+
+  // Update the nodes.
+  node.exit().remove();
+  node = svg.selectAll("circle")
+      .data(nodes, function(d) { return d.name; });
+  
+  node.enter().append("svg:circle")
+      .attr("class", "node")
+      .attr("class", function(d) { if (d.level == "0"){return "genome a"}else{return "genome b"}})
+      .attr("r", function(d) { if (d.end){return r * 1.5}else{return r - 0.75}})
+      .call(force.drag);
+
+  
+}
